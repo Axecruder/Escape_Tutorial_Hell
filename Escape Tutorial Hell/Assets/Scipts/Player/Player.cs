@@ -24,10 +24,9 @@ public class Player : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
         extraJump = extraJumpValue;
-        anim = GetComponent<Animator>(); 
+        anim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         Movement();
@@ -35,10 +34,10 @@ public class Player : MonoBehaviour
 
     void Movement()
     {
+        //Movement
         move = Input.GetAxisRaw("Horizontal");
         rigid.velocity = new Vector3(speed * move, rigid.velocity.y);
-
-        //Movement
+        
         if (move > 0 && !facingRight)
         {
             Flip();
@@ -63,6 +62,11 @@ public class Player : MonoBehaviour
         if (isGrounded)
         {
             extraJump = extraJumpValue;
+            anim.SetBool("IsJumping", false);
+        }
+        else
+        {
+            anim.SetBool("IsJumping", true);
         }
 
         if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space)) && extraJump > 0)
@@ -70,9 +74,10 @@ public class Player : MonoBehaviour
             rigid.velocity = Vector2.up * jumpForce;
             extraJump--;
         }
-        else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)|| Input.GetKeyDown(KeyCode.Space)) && extraJump == 0 && isGrounded)
+        else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space)) && extraJump == 0 && isGrounded)
         {
-
+            rigid.velocity = Vector2.up * jumpForce;
+            anim.SetTrigger("TakeOff");
         }
 
     }

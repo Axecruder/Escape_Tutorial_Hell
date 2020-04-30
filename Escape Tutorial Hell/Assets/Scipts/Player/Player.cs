@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     private Rigidbody2D rigid;
     private float move;
@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     public float checkRadius;
     public LayerMask whatIsGround;
     public int extraJumpValue;
+
+    public int Health { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -88,5 +90,10 @@ public class Player : MonoBehaviour
         scaler.x *= -1;
 
         transform.localScale = scaler;
+    }
+
+    public void Damage()
+    {
+        Debug.Log("Player damage");
     }
 }

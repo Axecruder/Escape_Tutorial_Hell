@@ -77,7 +77,6 @@ public class Player : MonoBehaviour
         else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space)) && extraJump == 0 && isGrounded)
         {
             rigid.velocity = Vector2.up * jumpForce;
-            anim.SetTrigger("TakeOff");
         }
 
     }

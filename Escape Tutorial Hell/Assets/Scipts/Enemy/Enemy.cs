@@ -50,7 +50,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-    public void Damage()
+    public virtual void Damage()
     {
         
     }

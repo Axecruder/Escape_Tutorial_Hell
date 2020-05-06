@@ -10,7 +10,9 @@ public class Player : MonoBehaviour, IDamageable
     private bool isGrounded;
     private int extraJump;
     private Animator anim;
+    private bool canAttack = true;
 
+    [SerializeField] private float attackCooldown = 0.5f;
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
 
@@ -34,12 +36,22 @@ public class Player : MonoBehaviour, IDamageable
         Movement();
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0) && isGrounded && canAttack)
+        {
+            anim.SetTrigger("Attack");
+            canAttack = false;
+            StartCoroutine(AttackCooldownRoutine());
+        }
+    }
+
     void Movement()
     {
         //Movement
         move = Input.GetAxisRaw("Horizontal");
         rigid.velocity = new Vector3(speed * move, rigid.velocity.y);
-        
+
         if (move > 0 && !facingRight)
         {
             Flip();
@@ -94,6 +106,12 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Damage()
     {
-        Debug.Log("Player damage");
+        anim.SetTrigger("Hit");
+    }
+
+    public IEnumerator AttackCooldownRoutine()
+    {
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
     }
 }

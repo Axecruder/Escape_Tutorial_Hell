@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class SimpleEnemy : Enemy
 {
-    
+    public override void Damage()
+    {
+        Destroy(gameObject);
+    }
 }

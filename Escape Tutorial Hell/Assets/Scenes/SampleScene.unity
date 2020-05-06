@@ -131,7 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 336200232}
   - component: {fileID: 336200233}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 378890126}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 467103594}
   - component: {fileID: 467103593}
   - component: {fileID: 467103595}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -280,7 +280,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 467103590}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.042, z: 0}
+  m_LocalPosition: {x: 1.71, y: -0.042, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 689095958}
@@ -339,6 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e52c586b9a18a8d43ab79addcc9a5f3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackCooldown: 0.5
   speed: 5
   jumpForce: 7
   groundCheck: {fileID: 378890126}
@@ -440,7 +441,7 @@ GameObject:
   m_Component:
   - component: {fileID: 689095958}
   - component: {fileID: 689095959}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -455,7 +456,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 689095957}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.026, y: -0.24299997, z: 0}
+  m_LocalPosition: {x: 0, y: -0.24299997, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1574481880}
@@ -742,7 +743,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1243846366}
   - component: {fileID: 1243846367}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Right_Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -824,9 +825,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1394511399}
   - component: {fileID: 1394511400}
-  m_Layer: 0
+  - component: {fileID: 1394511401}
+  - component: {fileID: 1394511402}
+  m_Layer: 10
   m_Name: Weapon
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -896,6 +899,44 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1394511401
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394511398}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.68502975, y: -0.27838334}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.10421165, y: 0.71278}
+    oldSize: {x: 1.35, y: 0.6}
+    newSize: {x: 1.35, y: 0.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.0485692, y: 0.29856932}
+  m_EdgeRadius: 0
+--- !u!114 &1394511402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394511398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc3f61f3a8cc5a4395a0b52f4a3c48e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1455461255
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,7 +977,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1574481880}
   - component: {fileID: 1574481881}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1048,7 +1089,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1718131739}
   - component: {fileID: 1718131740}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Left_Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}

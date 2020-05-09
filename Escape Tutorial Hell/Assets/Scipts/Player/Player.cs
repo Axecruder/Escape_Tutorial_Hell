@@ -15,6 +15,7 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private float attackCooldown = 0.5f;
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
+    [SerializeField] private int health;
 
     public Transform groundCheck;
     public float checkRadius;
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour, IDamageable
         rigid = GetComponent<Rigidbody2D>();
         extraJump = extraJumpValue;
         anim = GetComponent<Animator>();
+        Health = health;
     }
 
     void FixedUpdate()

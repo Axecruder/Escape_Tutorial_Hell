@@ -11,7 +11,9 @@ public class Player : MonoBehaviour, IDamageable
     private int extraJump;
     private Animator anim;
     private bool canAttack = true;
+    private bool invulnerable = false;
 
+    [SerializeField] private float invulnerableTimer = 1f;
     [SerializeField] private float attackCooldown = 0.5f;
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
@@ -108,12 +110,37 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Damage()
     {
-        anim.SetTrigger("Hit");
+        if (!invulnerable)
+        {
+            Health--;
+            anim.SetTrigger("Hit");
+            Debug.Log("Player Health: " + Health);
+            StartCoroutine(InvulnerableTimerRoutine());
+        }
+
+        if (Health <= 0)
+        {
+            StartCoroutine(DeathAnimationRoutine()); 
+        }
     }
 
     public IEnumerator AttackCooldownRoutine()
     {
         yield return new WaitForSeconds(attackCooldown);
         canAttack = true;
+    }
+
+    public IEnumerator DeathAnimationRoutine()
+    {
+        anim.SetBool("IsDead", true);
+        yield return new WaitForSeconds(0.8f);
+        gameObject.SetActive(false);
+    }
+
+    public IEnumerator InvulnerableTimerRoutine()
+    {
+        invulnerable = true;
+        yield return new WaitForSeconds(invulnerableTimer);
+        invulnerable = false;
     }
 }

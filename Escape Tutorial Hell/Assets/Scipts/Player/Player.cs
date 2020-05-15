@@ -114,13 +114,13 @@ public class Player : MonoBehaviour, IDamageable
         {
             Health--;
             anim.SetTrigger("Hit");
-            Debug.Log("Player Health: " + Health);
+            UIManager.Instance.UpdateLives(Health);
             StartCoroutine(InvulnerableTimerRoutine());
         }
 
-        if (Health <= 0)
+        if (Health == 0)
         {
-            StartCoroutine(DeathAnimationRoutine()); 
+            StartCoroutine(DeathAnimationRoutine());
         }
     }
 

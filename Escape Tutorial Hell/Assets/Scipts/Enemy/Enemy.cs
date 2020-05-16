@@ -9,6 +9,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     [SerializeField] protected float speed;
 
     [SerializeField] protected Transform pointA, pointB;
+    [SerializeField] protected SpriteRenderer sprite;
 
     private Vector2 currentTarget;
     private Player player;
@@ -19,6 +20,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     void Start()
     {
         Health = this.healt;
+        sprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -32,11 +34,13 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     {
         if (transform.position == pointA.position)
         {
-           currentTarget = pointB.position;
+            currentTarget = pointB.position;
+            sprite.flipX = true;
         }
         else if (transform.position == pointB.position)
         {
             currentTarget = pointA.position;
+            sprite.flipX = false;
         }
         transform.position = Vector2.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
     }

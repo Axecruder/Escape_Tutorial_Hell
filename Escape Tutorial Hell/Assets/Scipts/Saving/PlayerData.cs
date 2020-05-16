@@ -21,5 +21,9 @@ public class PlayerData
         position[2] = player.transform.position.z;
     }
 
-
+    public void LoadDataToPlayer(Player player)
+    {
+        player.Health = health;
+        player.transform.position = new Vector3(position[0], position[1], position[2]);
+    }
 }

@@ -5,7 +5,15 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem
 {
-    public static void SavePlayer(Player player)
+    private static bool needToLoad = false;
+    public static Player player;
+
+    public static void IsNeedToLoad(bool needToLoad)
+    {
+        SaveSystem.needToLoad = needToLoad;
+    }
+
+    public static void SavePlayer()
     {
         BinaryFormatter formatter = new BinaryFormatter();
         //Path where save file is created
@@ -21,27 +29,53 @@ public static class SaveSystem
         stream.Close();
     }
 
-    public static PlayerData LoadPlayer()
+    public static void LoadPlayer()
+    {
+        if (needToLoad)
+        {
+            //Must be the same as in save file. 
+            string path = Application.persistentDataPath + "/player.fun";
+
+            //Check if path is exists
+            if (File.Exists(path))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                FileStream stream = new FileStream(path, FileMode.Open);
+
+                //Dissolv encrypt
+                PlayerData data = formatter.Deserialize(stream) as PlayerData;
+                stream.Close();
+
+                data.LoadDataToPlayer(player);
+            }
+            else
+            {
+                Debug.Log("Save file not found in " + path);
+            }
+        }
+    }
+
+    public static void DeleteSave()
+    {
+            //Must be the same as in save file. 
+            string path = Application.persistentDataPath + "/player.fun";
+
+            //Check if path is exists
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            else
+            {
+                Debug.Log("Save file not found in " + path);
+            }
+    }
+
+    public static bool IsSaveExist()
     {
         //Must be the same as in save file. 
         string path = Application.persistentDataPath + "/player.fun";
 
-        //Check if path is exists
-        if (File.Exists(path))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
-
-            //Dissolv encrypt
-            PlayerData data = formatter.Deserialize(stream) as PlayerData;
-            stream.Close();
-
-            return data;
-        }
-        else
-        {
-            Debug.LogError("Save file not found in " + path);
-            return null;
-        }
+        return File.Exists(path);
     }
 }

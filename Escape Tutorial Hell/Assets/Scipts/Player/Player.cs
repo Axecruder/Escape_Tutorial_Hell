@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, IDamageable
 {
+    private static int CONSTANT_INIT_HEALTH = 5; 
     private Rigidbody2D rigid;
     private float move;
     private bool facingRight = true;
@@ -17,22 +19,31 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private float attackCooldown = 0.5f;
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
-    [SerializeField] private int health;
+    [SerializeField] public int Health { get; set; }
 
     public Transform groundCheck;
     public float checkRadius;
     public LayerMask whatIsGround;
     public int extraJumpValue;
 
-    public int Health { get; set; }
+
 
     // Start is called before the first frame update
     void Start()
     {
+        //init with constants
+        Health = CONSTANT_INIT_HEALTH;
+        UIManager.initHealth = CONSTANT_INIT_HEALTH;
+        //Enable saving function and loadData if enables
+        SaveSystem.player = this;
+        SaveSystem.LoadPlayer();
+
         rigid = GetComponent<Rigidbody2D>();
         extraJump = extraJumpValue;
         anim = GetComponent<Animator>();
-        Health = health;
+
+        //update UI
+        UIManager.Instance.UpdateLives(Health);
     }
 
     void FixedUpdate()
@@ -120,7 +131,7 @@ public class Player : MonoBehaviour, IDamageable
 
         if (Health == 0)
         {
-            StartCoroutine(DeathAnimationRoutine());
+            StartCoroutine(DeathRoutine());
         }
     }
 
@@ -130,11 +141,13 @@ public class Player : MonoBehaviour, IDamageable
         canAttack = true;
     }
 
-    public IEnumerator DeathAnimationRoutine()
+    public IEnumerator DeathRoutine()
     {
         anim.SetBool("IsDead", true);
         yield return new WaitForSeconds(0.8f);
         gameObject.SetActive(false);
+        SaveSystem.DeleteSave();
+        SceneManager.LoadScene("LaunchScene");
     }
 
     public IEnumerator InvulnerableTimerRoutine()

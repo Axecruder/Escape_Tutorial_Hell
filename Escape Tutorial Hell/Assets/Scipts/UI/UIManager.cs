@@ -18,32 +18,23 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private Player player;
-
     public Image[] healthArray;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-    }
+    public static int initHealth;
 
     private void Awake()
     {
         instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void UpdateLives(int livesRemaining)
     {
-        for (int i = 0; i <= livesRemaining; i++)
+        for (int i = 0; i < initHealth; i++)
         {
-            if (i == livesRemaining)
+            if (i < livesRemaining)
+            {
+                healthArray[i].enabled = true;
+            }
+            else
             {
                 healthArray[i].enabled = false;
             }

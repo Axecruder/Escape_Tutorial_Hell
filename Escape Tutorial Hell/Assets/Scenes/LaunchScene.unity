@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 515087977}
   - component: {fileID: 515087976}
   - component: {fileID: 515087979}
+  - component: {fileID: 515087980}
   m_Layer: 5
   m_Name: ResumeButton
   m_TagString: Untagged
@@ -323,8 +324,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -40}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 0, y: 19}
+  m_SizeDelta: {x: 72.29999, y: 98.468994}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &515087976
 MonoBehaviour:
@@ -370,7 +371,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 515087979}
-        m_MethodName: LoadMap
+        m_MethodName: ResumeGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -425,9 +426,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 515087974}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a4c33281a6105b48b40611245119601, type: 3}
+  m_Script: {fileID: 11500000, guid: aeacb2a1e5115f949a3d35578012ca27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scene: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
+--- !u!114 &515087980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515087974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcab12746b47bf6499551196b64c79de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 515087976}
 --- !u!1 &581441296
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,11 +475,11 @@ RectTransform:
   m_Father: {fileID: 1423103892}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 500, y: 120}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &581441298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -861,8 +876,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 120}
+  m_AnchoredPosition: {x: 0.00023365, y: 0}
+  m_SizeDelta: {x: 353.19, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1160480007
 MonoBehaviour:
@@ -1025,8 +1040,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -200}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 1.2, y: -118}
+  m_SizeDelta: {x: 72.2, y: 96.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1423103893
 MonoBehaviour:
@@ -1072,7 +1087,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1423103896}
-        m_MethodName: LoadMap
+        m_MethodName: NewGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1127,9 +1142,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1423103891}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b097dc8fface7434daf9cfcaa28c3689, type: 3}
+  m_Script: {fileID: 11500000, guid: aeacb2a1e5115f949a3d35578012ca27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scene: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
 --- !u!1 &1624649400
 GameObject:
   m_ObjectHideFlags: 0
@@ -1162,11 +1178,11 @@ RectTransform:
   m_Father: {fileID: 1055743259}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 30, y: 197}
-  m_SizeDelta: {x: 800, y: 200}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -0.000038146973, y: 0}
+  m_SizeDelta: {x: 667, y: 105.6}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1624649402
 MonoBehaviour:
   m_ObjectHideFlags: 0

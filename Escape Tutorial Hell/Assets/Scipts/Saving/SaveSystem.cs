@@ -2,15 +2,21 @@
 //Namespaces to save files
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections.Generic;
 
 public static class SaveSystem
 {
     private static bool needToLoad = false;
     public static Player player;
 
-    public static void IsNeedToLoad(bool needToLoad)
+    public static void SetNeedToLoad(bool needToLoad)
     {
         SaveSystem.needToLoad = needToLoad;
+    }
+
+    public static bool IsNeedToLoad()
+    {
+        return needToLoad;
     }
 
     public static void SavePlayer()
@@ -57,25 +63,24 @@ public static class SaveSystem
 
     public static void DeleteSave()
     {
-            //Must be the same as in save file. 
-            string path = Application.persistentDataPath + "/player.fun";
+        //Must be the same as in save file. 
+         string path_player = Application.persistentDataPath + "/player.fun";
 
-            //Check if path is exists
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-            }
-            else
-            {
-                Debug.Log("Save file not found in " + path);
-            }
+        //Check if path is exists
+        if (File.Exists(path_player))
+        {
+            File.Delete(path_player);
+        }
+        else
+        {
+            Debug.Log("Save file not found in " + path_player);
+        }
     }
 
     public static bool IsSaveExist()
     {
         //Must be the same as in save file. 
         string path = Application.persistentDataPath + "/player.fun";
-
         return File.Exists(path);
     }
 }

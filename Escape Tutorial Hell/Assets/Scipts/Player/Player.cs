@@ -48,11 +48,12 @@ public class Player : MonoBehaviour, IDamageable
 
     void FixedUpdate()
     {
-        Movement();
+        
     }
 
     private void Update()
     {
+        Movement();
         if (Input.GetMouseButtonDown(0) && isGrounded && canAttack)
         {
             anim.SetTrigger("Attack");

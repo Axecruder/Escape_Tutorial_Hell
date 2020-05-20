@@ -8,21 +8,23 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour
 {
     public SceneAsset scene;
+    public EnemyLoader enemyLoader;
 
     public void NewGame()
     {
-        SaveSystem.IsNeedToLoad(false);
+        SaveSystem.SetNeedToLoad(false);
         SceneManager.LoadScene(scene.name, LoadSceneMode.Single);
     }
     public void ResumeGame()
     {
-        SaveSystem.IsNeedToLoad(true);
+        SaveSystem.SetNeedToLoad(true);
         SceneManager.LoadScene(scene.name, LoadSceneMode.Single);
     }
 
     public void PauseGame()
     {
         SaveSystem.SavePlayer();
+        enemyLoader.SaveEnemies();
         SceneManager.LoadScene(scene.name, LoadSceneMode.Single);
     }
 }

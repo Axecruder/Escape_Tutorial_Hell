@@ -8,41 +8,24 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     [SerializeField] protected int damage;
     [SerializeField] protected float speed;
 
-    [SerializeField] protected Transform pointA, pointB;
     [SerializeField] protected SpriteRenderer sprite;
 
-    private Vector2 currentTarget;
+    
     private Player player;
 
     public int Health { get; set; }
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         Health = this.healt;
         sprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        //Ha nincs combat
-        Patrol();
-    }
-
-    public virtual void Patrol()
-    {
-        if (transform.position == pointA.position)
-        {
-            currentTarget = pointB.position;
-            sprite.flipX = true;
-        }
-        else if (transform.position == pointB.position)
-        {
-            currentTarget = pointA.position;
-            sprite.flipX = false;
-        }
-        transform.position = Vector2.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

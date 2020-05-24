@@ -26,6 +26,7 @@ public class Player : MonoBehaviour, IDamageable
     public LayerMask whatIsGround;
     public int extraJumpValue;
 
+    public GameObject moveParticleSystem;
 
 
     // Start is called before the first frame update
@@ -48,7 +49,10 @@ public class Player : MonoBehaviour, IDamageable
 
     void FixedUpdate()
     {
-        
+        if (moveParticleSystem != null && (isGrounded && move != 0))
+        {
+            Instantiate(moveParticleSystem, new Vector3(transform.position.x, transform.position.y - 0.55f , transform.position.z), Quaternion.identity);
+        }
     }
 
     private void Update()

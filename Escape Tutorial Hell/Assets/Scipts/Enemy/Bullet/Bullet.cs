@@ -16,4 +16,13 @@ public class Bullet : MonoBehaviour
     {
         transform.Translate(0, Time.deltaTime,0);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        IDamageable hit = collision.GetComponent<IDamageable>();
+        if (collision.tag == "Player" && hit != null )
+        {
+            hit.Damage();
+        }
+    }
 }

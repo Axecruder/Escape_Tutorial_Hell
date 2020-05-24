@@ -13,12 +13,13 @@ private EnemyData enemyData;
         {
             type = EnemyType.SpikeShooterEnemy
         };
-        transform.parent.GetComponent<EnemyLoader>().AddEnemyData(enemyData);
         float[] position = new float[3];
         position[0] = transform.position.x;
         position[1] = transform.position.y;
         position[2] = transform.position.z;
         enemyData.position = position;
+
+        StartCoroutine(pushDataWhenLoaderExist());
     }
 
     void Update()
@@ -28,6 +29,15 @@ private EnemyData enemyData;
 
     void OnDestroy()
     {
-        transform.parent.GetComponent<EnemyLoader>().DeleteEnemyData(enemyData);
+        if (GetComponentInParent<EnemyLoader>() != null)
+        {
+            GetComponentInParent<EnemyLoader>().DeleteEnemyData(enemyData);
+        }
+    }
+
+    IEnumerator pushDataWhenLoaderExist()
+    {
+        yield return new WaitUntil(() => GetComponentInParent<EnemyLoader>()!=null);
+        GetComponentInParent<EnemyLoader>().AddEnemyData(enemyData);
     }
 }

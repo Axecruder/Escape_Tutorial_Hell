@@ -201,6 +201,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   extraJumpValue: 1
+  moveParticleSystem: {fileID: 836604542497409053, guid: 171cec6a8738bcf40b41431958b601d5,
+    type: 3}
 --- !u!1 &6952580215846565632
 GameObject:
   m_ObjectHideFlags: 0

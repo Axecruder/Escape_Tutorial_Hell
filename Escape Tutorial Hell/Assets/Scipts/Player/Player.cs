@@ -161,4 +161,15 @@ public class Player : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(invulnerableTimer);
         invulnerable = false;
     }
+
+    void OnCollisionEnter2D(Collision2D c)
+    {
+        if ((whatIsGround.value & 1 << c.gameObject.layer) == 1 << c.gameObject.layer)
+        {
+            for(int i =0; i < 3; i++)
+            {
+                Instantiate(moveParticleSystem, new Vector3(transform.position.x, transform.position.y - 0.55f, transform.position.z), Quaternion.identity);
+            }
+        }
+    }
 }

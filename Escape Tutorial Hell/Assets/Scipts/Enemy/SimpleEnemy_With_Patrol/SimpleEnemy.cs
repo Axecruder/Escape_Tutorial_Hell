@@ -7,11 +7,45 @@ public class SimpleEnemy : Enemy
     [SerializeField] protected Transform pointA, pointB;
 
     private Vector2 currentTarget;
+    public float Range = 0;
+    private GameObject player;
+
+    void Awake()
+    {
+        player = GameObject.FindWithTag("Player");
+    }
 
     protected override void Update()
     {
         base.Update();
-        Patrol();
+        if (player != null && Range!=0 && Vector2.Distance(transform.position, player.transform.position) < Range)
+        {
+            if(player.transform.position.x > transform.position.x)
+            {
+                sprite.flipX = true;
+            }
+            else
+            {
+                sprite.flipX = false;
+            }
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.transform.position.x,transform.position.y), speed * Time.deltaTime);
+        }
+        else if(transform.position.x < pointA.position.x || transform.position.x > pointB.position.x)
+        {
+            if (pointA.transform.position.x > transform.position.x)
+            {
+                sprite.flipX = true;
+            }
+            else
+            {
+                sprite.flipX = false;
+            }
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(pointA.transform.position.x, transform.position.y), speed * Time.deltaTime);
+        }
+        else
+        {
+           Patrol();
+        }
     }
 
     public virtual void Patrol()

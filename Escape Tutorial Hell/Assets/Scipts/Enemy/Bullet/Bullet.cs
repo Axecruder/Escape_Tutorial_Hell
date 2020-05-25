@@ -5,6 +5,10 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
 
+    public GameObject collisionEffect;
+
+    [SerializeField] private float bulletSpeed;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -14,7 +18,8 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(0, Time.deltaTime,0);
+        transform.Translate(0, bulletSpeed * Time.deltaTime,0);
+        Destroy(gameObject, 5f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -23,6 +28,8 @@ public class Bullet : MonoBehaviour
         if (collision.tag == "Player" && hit != null )
         {
             hit.Damage();
+            Instantiate(collisionEffect, transform.position, Quaternion.identity);
+            Destroy(gameObject);
         }
     }
 }

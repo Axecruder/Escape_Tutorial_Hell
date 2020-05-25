@@ -61,6 +61,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e7f2fa7702b5434cbfd7827d39b075d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collisionEffect: {fileID: 2832919620447762423, guid: 654d0a9c25bc9ea43b26954576e955f1,
+    type: 3}
+  bulletSpeed: 5
 --- !u!1 &4054793925482819688
 GameObject:
   m_ObjectHideFlags: 0

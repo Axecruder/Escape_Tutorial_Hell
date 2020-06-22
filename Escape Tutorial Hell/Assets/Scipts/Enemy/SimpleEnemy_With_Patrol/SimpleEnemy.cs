@@ -4,65 +4,79 @@ using UnityEngine;
 
 public class SimpleEnemy : Enemy
 {
-    [SerializeField] protected Transform pointA, pointB;
+    private GameObject playerTarget;
+    public Transform groundCheck;
+    public float checkRadius;
+    public LayerMask whatIsGround;
+    private float fallSpeed = 2.0f;
+    public int diretion; //1 = right; -1 = left
+    private EnemyData enemyData;
 
-    private Vector2 currentTarget;
-    public float Range = 0;
-    private GameObject player;
+    private bool isGrounded = false;
+
+    override protected void Start()
+    {
+        base.Start();
+        enemyData = new EnemyData
+        {
+            type = EnemyType.SimpleEnemy_With_Patrol
+        };
+        float[] position = new float[3];
+        position[0] = transform.position.x;
+        position[1] = transform.position.y;
+        position[2] = transform.position.z;
+        enemyData.position = position;
+
+        StartCoroutine(pushDataWhenLoaderExist());
+    }
 
     void Awake()
     {
-        player = GameObject.FindWithTag("Player");
+        playerTarget = GameObject.FindWithTag("Player");
+        diretion = 1;
     }
 
     protected override void Update()
     {
         base.Update();
-        if (player != null && Range!=0 && Vector2.Distance(transform.position, player.transform.position) < Range)
+
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+        
+        //UP - DOWN movement
+        if (isGrounded)
         {
-            if(player.transform.position.x > transform.position.x)
-            {
-                sprite.flipX = true;
-            }
-            else
-            {
-                sprite.flipX = false;
-            }
-            transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.transform.position.x,transform.position.y), speed * Time.deltaTime);
-        }
-        else if(transform.position.x < pointA.position.x || transform.position.x > pointB.position.x)
-        {
-            if (pointA.transform.position.x > transform.position.x)
-            {
-                sprite.flipX = true;
-            }
-            else
-            {
-                sprite.flipX = false;
-            }
-            transform.position = Vector2.MoveTowards(transform.position, new Vector2(pointA.transform.position.x, transform.position.y), speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, transform.position.y + 0.5f), Time.deltaTime * fallSpeed);
         }
         else
         {
-           Patrol();
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x,transform.position.y - 0.5f),Time.deltaTime * fallSpeed);
         }
-    }
 
-    public virtual void Patrol()
-    {
-        if (transform.position == pointA.position)
+        // LEFT - RIGHT movement
+        transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x + diretion, transform.position.y), Time.deltaTime * speed);
+        if (diretion==1)
         {
-            currentTarget = pointB.position;
             sprite.flipX = true;
         }
-        else if (transform.position == pointB.position)
+        else
         {
-            currentTarget = pointA.position;
             sprite.flipX = false;
         }
-        transform.position = Vector2.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+
+        refreshEnemyData();
     }
 
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        base.OnTriggerEnter2D(collision);
+        if(collision.transform.tag.Equals("pointLeft"))
+        {
+            diretion = 1;
+        }else if(collision.transform.tag.Equals("pointRight"))
+        {
+            diretion = -1;
+        }
+    }
     public GameObject deadParticleSystem;
     public override void Damage()
     {
@@ -70,6 +84,30 @@ public class SimpleEnemy : Enemy
         {
             Instantiate(deadParticleSystem, new Vector3(transform.position.x, transform.position.y - 0.2f , transform.position.z) , Quaternion.identity);
         }
-        Destroy(transform.parent.gameObject);
+        Destroy(gameObject);
+    }
+
+    private void refreshEnemyData()
+    {
+        float[] position = new float[3];
+        position[0] = transform.position.x;
+        position[1] = transform.position.y;
+        position[2] = transform.position.z;
+        enemyData.position = position;
+        enemyData.direction = diretion;
+    }
+
+    void OnDestroy()
+    {
+        if (GetComponentInParent<EnemyLoader>()!=null)
+        {
+            GetComponentInParent<EnemyLoader>().DeleteEnemyData(enemyData);
+        }
+    }
+
+    IEnumerator pushDataWhenLoaderExist()
+    {
+        yield return new WaitUntil(() => GetComponentInParent<EnemyLoader>() != null);
+        GetComponentInParent<EnemyLoader>().AddEnemyData(enemyData);
     }
 }

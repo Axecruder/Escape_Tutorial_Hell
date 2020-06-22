@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -75,7 +74,7 @@ public class EnemyLoader : MonoBehaviour
     {
         foreach (Transform child in enemiesParent.transform)
         {
-            GameObject.Destroy(child.gameObject);
+            Destroy(child.gameObject);
         }
     }
     private void InitializeEnemies()
@@ -90,8 +89,9 @@ public class EnemyLoader : MonoBehaviour
                     enemy = Instantiate(Prefab_SimpleEnemy_With_Patrol,
                         new Vector3(data.position[0], data.position[1], data.position[2]),
                         Quaternion.identity);
+                    enemy.GetComponent<SimpleEnemy>().diretion = data.direction;
                     break;
-                case EnemyType.SpikeShooterEnemy:
+                case EnemyType.ShooterEnemy:
                     enemy = Instantiate(Prefab_SpikeShooterEnemy,
                         new Vector3(data.position[0], data.position[1], data.position[2]),
                         Quaternion.identity);

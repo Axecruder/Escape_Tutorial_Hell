@@ -4,5 +4,5 @@ using UnityEngine;
 
 public enum EnemyType {
     SimpleEnemy_With_Patrol,
-    SpikeShooterEnemy
+    ShooterEnemy
 }

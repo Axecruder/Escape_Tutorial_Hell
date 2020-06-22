@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour, IDamageable
 {
     private static int CONSTANT_INIT_HEALTH = 5; 
     private Rigidbody2D rigid;
     private float move;
-    private bool facingRight = true;
+    public bool facingRight = true;
     private bool isGrounded;
     private int extraJump;
     private Animator anim;
@@ -39,6 +40,14 @@ public class Player : MonoBehaviour, IDamageable
         SaveSystem.player = this;
         SaveSystem.LoadPlayer();
 
+        if (!facingRight)
+        {
+            Vector3 scaler = transform.localScale;
+            scaler.x *= -1;
+
+            transform.localScale = scaler;
+        }
+
         rigid = GetComponent<Rigidbody2D>();
         extraJump = extraJumpValue;
         anim = GetComponent<Animator>();
@@ -58,11 +67,23 @@ public class Player : MonoBehaviour, IDamageable
     private void Update()
     {
         Movement();
-        if (Input.GetMouseButtonDown(0) && isGrounded && canAttack)
+        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.K)) && isGrounded && canAttack)
         {
             anim.SetTrigger("Attack");
             canAttack = false;
             StartCoroutine(AttackCooldownRoutine());
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Button pauseButton = GameObject.Find("PauseButton").GetComponent<Button>();
+            if (pauseButton != null)
+            {
+                MenuManager menumanager = pauseButton.GetComponent<MenuManager>();
+                if (menumanager != null)
+                {
+                    menumanager.PauseGame();
+                }
+            }
         }
     }
 
@@ -150,7 +171,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         anim.SetBool("IsDead", true);
         yield return new WaitForSeconds(0.8f);
-        gameObject.SetActive(false);
+        Destroy(gameObject);
         SaveSystem.DeleteSave();
         SceneManager.LoadScene("LaunchScene");
     }

@@ -18,11 +18,19 @@ public class MenuManager : MonoBehaviour
     public void ResumeGame()
     {
         SaveSystem.SetNeedToLoad(true);
-        SceneManager.LoadScene(scene.name, LoadSceneMode.Single);
+        if(SaveSystem.actualSceneName != null)
+        {
+            SceneManager.LoadScene(SaveSystem.actualSceneName, LoadSceneMode.Single);
+        }
+        else
+        {
+            SceneManager.LoadScene(scene.name, LoadSceneMode.Single);
+        }
     }
 
     public void PauseGame()
     {
+        SaveSystem.actualSceneName = SceneManager.GetActiveScene().name;
         SaveSystem.SavePlayer();
         enemyLoader.SaveEnemies();
         SceneManager.LoadScene(scene.name, LoadSceneMode.Single);

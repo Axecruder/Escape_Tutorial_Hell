@@ -3,11 +3,13 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
+using UnityEditor;
 
 public static class SaveSystem
 {
     private static bool needToLoad = false;
     public static Player player;
+    public static string actualSceneName;
 
     public static void SetNeedToLoad(bool needToLoad)
     {

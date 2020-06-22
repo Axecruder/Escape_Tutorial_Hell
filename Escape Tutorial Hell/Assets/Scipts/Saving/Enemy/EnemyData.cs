@@ -8,4 +8,5 @@ public class EnemyData
 {
     public EnemyType type;
     public float[] position;
+    public int direction = 1; //1 = right; -1 = left
 }

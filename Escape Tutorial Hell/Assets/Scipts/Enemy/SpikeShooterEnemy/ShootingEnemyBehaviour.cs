@@ -5,6 +5,12 @@ using UnityEngine;
 public class ShootingEnemyBehaviour : Enemy
 {
     private EnemyData enemyData;
+
+    //Audio
+    private AudioSource audioSource;
+
+    public AudioClip enemyDieClip;
+    private float enemyDieVolume = 0.35f;
     protected override void Start()
     {
         base.Start();
@@ -18,6 +24,8 @@ public class ShootingEnemyBehaviour : Enemy
         position[1] = transform.position.y;
         position[2] = transform.position.z;
         enemyData.position = position;
+
+        audioSource = GetComponent<AudioSource>();
 
         StartCoroutine(pushDataWhenLoaderExist());
     }
@@ -35,7 +43,9 @@ public class ShootingEnemyBehaviour : Enemy
         {
             Instantiate(deadParticleSystem, new Vector3(transform.position.x, transform.position.y - 0.2f, transform.position.z), Quaternion.identity);
         }
-        Destroy(gameObject);
+        sprite.enabled = false;
+        audioSource.PlayOneShot(enemyDieClip, enemyDieVolume);
+        Destroy(gameObject,0.2f);
     }
 
     void OnDestroy()

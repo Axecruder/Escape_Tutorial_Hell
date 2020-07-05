@@ -15,12 +15,23 @@ public class Player : MonoBehaviour, IDamageable
     private Animator anim;
     private bool canAttack = true;
     private bool invulnerable = false;
+    private Vector2 startPosition;
+    private float fallTime;
 
     [SerializeField] private float invulnerableTimer = 1f;
     [SerializeField] private float attackCooldown = 0.5f;
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
     [SerializeField] public int Health { get; set; }
+
+    //Audio
+    private AudioSource audioSource;
+
+    public AudioClip jumpClip;
+    private float jumpVolume = 0.75f;
+    public AudioClip damageClip;
+    private float damageVolume = 0.55f;
+
 
     public Transform groundCheck;
     public float checkRadius;
@@ -51,9 +62,11 @@ public class Player : MonoBehaviour, IDamageable
         rigid = GetComponent<Rigidbody2D>();
         extraJump = extraJumpValue;
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         //update UI
         UIManager.Instance.UpdateLives(Health);
+        startPosition = transform.position;
     }
 
     void FixedUpdate()
@@ -118,20 +131,32 @@ public class Player : MonoBehaviour, IDamageable
         {
             extraJump = extraJumpValue;
             anim.SetBool("IsJumping", false);
+            fallTime = Time.fixedTime;
         }
         else
         {
             anim.SetBool("IsJumping", true);
+            float currentTime = Time.fixedTime;
+            if ((currentTime - fallTime) > 3)
+            {
+                transform.position = startPosition;
+                Damage();
+                rigid.velocity = Vector2.up * jumpForce;
+            }
         }
 
         if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space)) && extraJump > 0)
         {
             rigid.velocity = Vector2.up * jumpForce;
             extraJump--;
+            fallTime = Time.fixedTime;
+            audioSource.PlayOneShot(jumpClip, jumpVolume);
         }
         else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space)) && extraJump == 0 && isGrounded)
         {
             rigid.velocity = Vector2.up * jumpForce;
+            audioSource.PlayOneShot(jumpClip, jumpVolume);
+            fallTime = Time.fixedTime;
         }
 
     }
@@ -151,6 +176,7 @@ public class Player : MonoBehaviour, IDamageable
         {
             Health--;
             anim.SetTrigger("Hit");
+            audioSource.PlayOneShot(damageClip, damageVolume);
             UIManager.Instance.UpdateLives(Health);
             StartCoroutine(InvulnerableTimerRoutine());
         }
